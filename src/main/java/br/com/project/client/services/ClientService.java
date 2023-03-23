@@ -1,5 +1,7 @@
 package br.com.project.client.services;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +25,9 @@ public class ClientService {
         Client client = new Client();
         BeanUtils.copyProperties(clientDTO, client);
         return clientRepository.save(client);
+    }
+
+    public List<Client> findAllClients() {
+        return clientRepository.findAll();
     }
 }
