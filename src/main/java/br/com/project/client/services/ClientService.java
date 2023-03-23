@@ -30,4 +30,11 @@ public class ClientService {
     public List<Client> findAllClients() {
         return clientRepository.findAll();
     }
+
+    public Client updateClient(Long clientId, ClientDTO clientDTO) {
+        Client client = this.findByIdClient(clientId);
+        BeanUtils.copyProperties(clientDTO, client);
+
+        return clientRepository.save(client);
+    }
 }
