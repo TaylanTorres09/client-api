@@ -2,6 +2,7 @@ package br.com.project.client.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -69,6 +70,20 @@ public class ClientServiceTest {
             assertEquals("Client not found", e.getMessage());
         }
 
+    }
+
+    @Test
+    void whenCreateThenReturnClient() {
+        when(clientRepository.save(any())).thenReturn(client);
+
+        Client response = clientService.createClient(clientDTO);
+
+        assertNotNull(response);
+        assertEquals(Client.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(name, response.getName());
+        assertEquals(age, response.getAge());
+        assertEquals(city, response.getCity());
     }
 
     public void start() {
