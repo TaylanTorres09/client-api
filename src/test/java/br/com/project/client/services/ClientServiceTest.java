@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -117,6 +120,14 @@ public class ClientServiceTest {
         assertEquals(name, response.getName());
         assertEquals(age, response.getAge());
         assertEquals(city, response.getCity());
+    }
+
+    @Test
+    void whenDeleteWithSuccess() {
+        when(clientRepository.findById(anyLong())).thenReturn(optional);
+        doNothing().when(clientRepository).deleteById(anyLong());
+        clientService.deleteClient(ID);
+        verify(clientRepository, times(1)).deleteById(anyLong());
     }
 
     public void start() {
