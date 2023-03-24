@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -84,6 +85,23 @@ public class ClientServiceTest {
         assertEquals(name, response.getName());
         assertEquals(age, response.getAge());
         assertEquals(city, response.getCity());
+    }
+
+    @Test
+    void whenFindAllThenReturnAListOfClients() {
+        when(clientRepository.findAll()).thenReturn(List.of(client));
+
+        List<Client> response = clientService.findAllClients();
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+
+        Client clientResponse = response.get(0);
+        assertEquals(Client.class, clientResponse.getClass());
+        assertEquals(ID, clientResponse.getId());
+        assertEquals(name, clientResponse.getName());
+        assertEquals(age, clientResponse.getAge());
+        assertEquals(city, clientResponse.getCity());
     }
 
     public void start() {
