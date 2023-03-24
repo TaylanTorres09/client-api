@@ -104,6 +104,21 @@ public class ClientServiceTest {
         assertEquals(city, clientResponse.getCity());
     }
 
+    @Test
+    void whenUpdateThenReturnClient() {
+        when(clientRepository.findById(anyLong())).thenReturn(optional);
+        when(clientRepository.save(any())).thenReturn(client);
+
+        Client response = clientService.updateClient(ID, clientDTO);
+
+        assertNotNull(response);
+        assertEquals(Client.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(name, response.getName());
+        assertEquals(age, response.getAge());
+        assertEquals(city, response.getCity());
+    }
+
     public void start() {
         client = new Client(ID, name, age, city);
         clientDTO = new ClientDTO(name, age, city);
