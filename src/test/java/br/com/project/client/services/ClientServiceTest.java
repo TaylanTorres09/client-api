@@ -1,5 +1,10 @@
 package br.com.project.client.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +41,20 @@ public class ClientServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         start();
+    }
+
+    @Test
+    void whenFindByIDThenReturnAClient() {
+        when(clientRepository.findById(anyLong())).thenReturn(optional);
+
+        Client response = clientService.findByIdClient(ID);
+
+        assertNotNull(response);
+        assertEquals(Client.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(name, response.getName());
+        assertEquals(age, response.getAge());
+        assertEquals(city, response.getCity());
     }
 
     public void start() {
