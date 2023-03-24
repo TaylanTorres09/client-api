@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import br.com.project.client.dtos.ClientDTO;
 import br.com.project.client.models.Client;
 import br.com.project.client.repositories.ClientRepository;
+import br.com.project.client.services.exceptions.ObjectNotFound;
 
 public class ClientServiceTest {
 
@@ -55,6 +56,19 @@ public class ClientServiceTest {
         assertEquals(name, response.getName());
         assertEquals(age, response.getAge());
         assertEquals(city, response.getCity());
+    }
+
+    @Test
+    void whenFindByIDThenReturnAnObjectNotFoundException() {
+        when(clientRepository.findById(anyLong())).thenThrow(new ObjectNotFound("Client not found"));
+
+        try {
+            clientService.findByIdClient(ID);
+        } catch (Exception e) {
+            assertEquals(ObjectNotFound.class, e.getClass());
+            assertEquals("Client not found", e.getMessage());
+        }
+
     }
 
     public void start() {
